@@ -1,0 +1,39 @@
+name: Deploy Project
+on: [push]
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Code
+              uses: actions/checkout@v4
+            - name: Install NodeJS
+              uses: actions/setup-node@v4
+            - name: Install deps
+              run: npm ci
+            - name: Run Tests
+              run: npm lint
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Code
+              uses: actions/checkout@v4
+            - name: Install NodeJS
+              uses: actions/setup-node@v4
+            - name: Install deps
+              run: npm ci
+            - name: Run Tests
+              run: npm test
+    deploy:
+        needs: [lint,test]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Code
+              uses: actions/checkout@v4
+            - name: Install NodeJS
+              uses: actions/setup-node@v4
+            - name: Install deps
+              run: npm ci
+            - name: Build Project 
+              run: npm run build
+            - name: Deploy Project 
+              run: echo "Deploying..."
